@@ -1,7 +1,7 @@
 FROM ros:indigo-ros-base
 RUN apt-get update
 
-ENV MY_USER="slambot"
+ENV MY_USERNAME="slambot"
 
 RUN set +x && \ 
     echo "Updating apt and installing packages" && \
@@ -26,29 +26,29 @@ RUN set +x && \
 #       ros-indigo-diagnostic-updater
     \
     echo "Creating user account" && \
-    useradd -ms /bin/bash $MY_USER && \
-    adduser $MY_USER sudo && \
-    echo $MY_USER:root | chpasswd && \
+    useradd -ms /bin/bash $MY_USERNAME && \
+    adduser $MY_USERNAME sudo && \
+    echo $MY_USERNAME:root | chpasswd && \
     echo root:root | chpasswd && \
     \
     echo "Configuring rosdep" && \
     rm -f /etc/ros/rosdep/sources.list.d/20-default.list && \
     sudo rosdep init && \
-    gosu $MY_USER rosdep update && \
+    gosu $MY_USERNAME rosdep update && \
     \
     echo "Setting up catkin workspace" && \
-    gosu $MY_USER mkdir -p /home/$MY_USER/project/catkin_ws && \
-    cd /home/$MY_USER/project/catkin_ws && \
+    gosu $MY_USERNAME mkdir -p /home/$MY_USERNAME/project/catkin_ws && \
+    cd /home/$MY_USERNAME/project/catkin_ws && \
     curl -sqL "https://raw.githubusercontent.com/carebare47/slambot/master/src.tar.gz" | \
-    gosu $MY_USER tar -C /home/$MY_USER/project/catkin_ws -zx && \
-    cd /home/$MY_USER/project/catkin_ws/src && \
+    gosu $MY_USERNAME tar -C /home/$MY_USERNAME/project/catkin_ws -zx && \
+    cd /home/$MY_USERNAME/project/catkin_ws/src && \
     rm CMakeLists.txt && \
-    cd /home/$MY_USER/project/catkin_ws/src && \    
-    gosu $MY_USER /bin/bash -c '. /opt/ros/indigo/setup.bash; \
+    cd /home/$MY_USERNAME/project/catkin_ws/src && \    
+    gosu $MY_USERNAME /bin/bash -c '. /opt/ros/indigo/setup.bash; \
         catkin_init_workspace' && \
     \
     echo "Installing all required ros dependencies" && \
-    cd /home/$MY_USER/project/catkin_ws && \
+    cd /home/$MY_USERNAME/project/catkin_ws && \
     /bin/bash -c 'source /opt/ros/indigo/setup.bash && rosdep install --from-paths src --ignore-src -r -y; \
         catkin_make' && \
     echo "sourcing environments" && \
