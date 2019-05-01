@@ -5,9 +5,17 @@ ENV MY_USER="slambot"
 
 RUN set +x && \ 
     echo "Updating apt and installing packages" && \
+    add-apt-repository ppa:tianon/gosu -y && \
     apt-get update && \
     apt-get install -y \
         g++ \
+        #libsdl2-dev \
+        #libgl1-mesa-dev \ 
+        #libopenal-dev \ 
+        #libsndfile-dev \ 
+        #libmpg123-dev \
+        #libgmp-dev \
+        gosu \
         terminator \
         ros-indigo-hector-mapping \
         ros-indigo-hector-slam && \
