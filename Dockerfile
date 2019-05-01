@@ -48,7 +48,7 @@ RUN set +x && \
     echo "source /home/slambot/project/catkin_ws/devel/setup.bash" >> ~/.bashrc && \
     echo "source /opt/ros/indigo/setup.bash" >> ~/.bashrc 
 
-
+USER $MY_USER
 #RUN useradd $MY_USER
 
 
