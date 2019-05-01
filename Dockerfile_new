@@ -1,0 +1,52 @@
+FROM ros:indigo-ros-base
+RUN apt-get update
+
+ENV MY_USER="slambot"
+
+RUN set +x && \ 
+    echo "Updating apt and installing packages" && \
+    apt-get update && \
+    apt-get install -y \
+        g++ \
+        terminator \
+        ros-indigo-hector-mapping \
+        ros-indigo-hector-slam && \
+#       ros-indigo-urdf \
+#       ros-indigo-tf \
+#       ros-indigo-diagnostic-updater
+    \
+    echo "Creating user account" && \
+    useradd -ms /bin/bash $MY_USER && \
+    adduser $MY_USER sudo && \
+    echo $MY_USER:root | chpasswd && \
+    echo root:root | chpasswd && \
+    \
+    echo "Configuring rosdep" && \
+    rm -f /etc/ros/rosdep/sources.list.d/20-default.list && \
+    sudo rosdep init && \
+    gosu $MY_USER rosdep update && \
+    \
+    echo "Setting up catkin workspace"
+    gosu $MY_USER mkdir -p /home/$MY_USER/project/catkin_ws && \
+    cd /home/$MY_USER/project/catkin_ws && \
+    curl -sqL "https://raw.githubusercontent.com/carebare47/slambot/master/src.tar.gz" | \
+    gosu $MY_USER tar -C /home/$MY_USER/project/catkin_ws -zx && \
+    cd /home/$MY_USER/project/catkin_ws/src && \
+    rm CMakeLists.txt && \
+    cd /home/$MY_USER/project/catkin_ws/src && \    
+    gosu $MY_USER /bin/bash -c '. /opt/ros/indigo/setup.bash; \
+        catkin_init_workspace' && \
+    \
+    echo "Installing all required ros dependencies" && \
+    cd /home/$MY_USER/project/catkin_ws && \
+    /bin/bash -c 'source /opt/ros/indigo/setup.bash && rosdep install --from-paths src --ignore-src -r -y; \
+        catkin_make' && \
+    echo "sourcing environments" && \
+    echo "source /home/slambot/project/catkin_ws/devel/setup.bash" >> ~/.bashrc && \
+    echo "source /opt/ros/indigo/setup.bash" >> ~/.bashrc 
+
+
+ADD entrypoint.sh /usr/local/bin/entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["terminator"]
+
