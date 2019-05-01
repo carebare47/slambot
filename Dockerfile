@@ -7,7 +7,6 @@ RUN set +x && \
     apt-get update && \
     apt-get install -y \
         g++ \
-        wget \
          ros-indigo-hector-mapping \
          ros-indigo-hector-slam && \
 #        ros-indigo-urdf \
@@ -31,8 +30,8 @@ RUN set +x && \
     mkdir -p /home/$MY_USER/project/catkin_ws && \
     \
     cd /home/$MY_USER/project/catkin_ws && \
-    wget "https://github.com/carebare47/src/blob/master/src.tar.gz" && \
-    tar -zxv src.tar.gz && \
+    curl -sqL "https://raw.githubusercontent.com/carebare47/slambot/master/src.tar.gz" | \
+    tar -C /home/$MY_USER/project/catkin_ws -zx && \
     #git clone https://github.com/carebare47/src.git && \
     cd /home/$MY_USER/project/catkin_ws/src && \
     rm CMakeLists.txt && \
