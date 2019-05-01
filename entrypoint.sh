@@ -35,4 +35,4 @@ ulimit -c unlimited
 echo 1 > /proc/sys/fs/suid_dumpable
 echo /home/$MY_USERNAME/.ros/log/core_dumps/core_BOF_%e_EOF_%p.%h.%t > /proc/sys/kernel/core_pattern
 
-exec /usr/local/bin/gosu $MY_USERNAME "$@"
+exec /usr/sbin/gosu $MY_USERNAME "$@"
