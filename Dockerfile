@@ -7,6 +7,7 @@ RUN set +x && \
     apt-get update && \
     apt-get install -y \
         g++ \
+        terminator \
          ros-indigo-hector-mapping \
          ros-indigo-hector-slam && \
 #        ros-indigo-urdf \
@@ -48,9 +49,11 @@ RUN set +x && \
     echo "source /home/slambot/project/catkin_ws/devel/setup.bash" >> ~/.bashrc && \
     echo "source /opt/ros/indigo/setup.bash" >> ~/.bashrc 
 
-USER $MY_USER
-#RUN useradd $MY_USER
+ADD entrypoint.sh /usr/local/bin/entrypoint.sh
 
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+CMD ["terminator"]
 
 
 
