@@ -34,7 +34,7 @@ RUN set +x && \
     sudo rosdep init && \
     gosu $MY_USER rosdep update && \
     \
-    echo "Setting up catkin workspace"
+    echo "Setting up catkin workspace" && \
     gosu $MY_USER mkdir -p /home/$MY_USER/project/catkin_ws && \
     cd /home/$MY_USER/project/catkin_ws && \
     curl -sqL "https://raw.githubusercontent.com/carebare47/slambot/master/src.tar.gz" | \
