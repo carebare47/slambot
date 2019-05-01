@@ -5,6 +5,8 @@ ENV MY_USER="slambot"
 
 RUN set +x && \ 
     echo "Updating apt and installing packages" && \
+    apt-get update && \
+    apt-get install -y software-properties-common && \
     add-apt-repository ppa:tianon/gosu -y && \
     apt-get update && \
     apt-get install -y \
