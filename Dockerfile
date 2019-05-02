@@ -11,12 +11,6 @@ RUN set +x && \
     apt-get update && \
     apt-get install -y \
         g++ \
-        #libsdl2-dev \
-        #libgl1-mesa-dev \ 
-        #libopenal-dev \ 
-        #libsndfile-dev \ 
-        #libmpg123-dev \
-        #libgmp-dev \
         gosu \
         terminator \
         ros-indigo-joint-state-publisher \
@@ -25,9 +19,6 @@ RUN set +x && \
         ros-indigo-hector-mapping \
         ros-indigo-hokuyo-node \
         ros-indigo-hector-slam && \
-#       ros-indigo-urdf \
-#       ros-indigo-tf \
-#       ros-indigo-diagnostic-updater
     \
     echo "Creating user account" && \
     useradd -ms /bin/bash $MY_USERNAME && \
