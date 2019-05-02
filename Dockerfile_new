@@ -19,7 +19,11 @@ RUN set +x && \
         #libgmp-dev \
         gosu \
         terminator \
+        ros-indigo-joint-state-publisher \
+        ros-indigo-joint-state-controller \
+        ros-indigo-robot-state-publisher \
         ros-indigo-hector-mapping \
+        ros-indigo-hokuyo-node \
         ros-indigo-hector-slam && \
 #       ros-indigo-urdf \
 #       ros-indigo-tf \
@@ -54,7 +58,7 @@ RUN set +x && \
     echo "sourcing environments" && \
     echo "source /home/slambot/project/catkin_ws/devel/setup.bash" >> ~/.bashrc && \
     echo "source /opt/ros/indigo/setup.bash" >> ~/.bashrc 
-
+                 /home/slambot/project/catkin_ws/devel
 
 ADD entrypoint.sh /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
